@@ -6,5 +6,5 @@ services:
     ports:
       - "8061:8061"
     volumes:
-       - ./volumes:/volumes
+      - ./volume:/volumes
     restart: unless-stopped
