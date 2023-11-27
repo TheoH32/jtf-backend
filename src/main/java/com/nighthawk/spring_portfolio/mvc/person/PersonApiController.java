@@ -23,8 +23,6 @@ public class PersonApiController {
     @Autowired
     private PersonJpaRepository repository;
 
-    @Autowired
-    private PersonDetailsService personDetailsService;
 
     /*
     GET List of People

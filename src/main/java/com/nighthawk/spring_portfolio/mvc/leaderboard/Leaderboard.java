@@ -4,19 +4,28 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import org.springframework.boot.SpringApplication;
 import org.springframework.data.repository.CrudRepository;
+
+import com.vladmihalcea.hibernate.type.json.JsonType;
 
 import jakarta.persistence.*;
 
 @Data  // Annotations to simplify writing code (ie constructors, setters)
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Entity // Annotation to simplify creating an entity, which is a lightweight persistence domain object. Typically, an entity represents a table in a relational database, and each entity instance corresponds to a row in that table.
+@Convert(attributeName ="leaderboard", converter = JsonType.class)
 public class Leaderboard {
-    public interface LeaderboardRepository extends CrudRepository<Leaderboard, Long> {
-}
+//     public interface LeaderboardRepository extends CrudRepository<Leaderboard, Long> {
+// }
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,10 +33,9 @@ public class Leaderboard {
 
     @Column(unique=true)
     private String sortName;
-
     private int terms;
-    
     private double time;
+
 
 public Leaderboard(String sortName, int terms, double time) {
         this.sortName = sortName;
@@ -36,34 +44,36 @@ public Leaderboard(String sortName, int terms, double time) {
     }
 
 
-     // Autowire the repository
-    @Autowired
-    private static LeaderboardRepository leaderboardRepository;
+     // initialize static test data
+    // public static Leaderboard[] init() {
 
-    public static Leaderboard[] init(LeaderboardRepository leaderboardRepository) {
+    //     Leaderboard sort1 = new Leaderboard();
+    //     sort1.setSortName("bubble");
+    //     sort1.setTerms(1000000);
+    //     sort1.setTime(1200);
 
-        Leaderboard sort1 = new Leaderboard("bubble", 1000000, 1200);
+    //     Leaderboard leaderboards[] = {sort1};
+    //     return(leaderboards);
 
-        leaderboardRepository.save(sort1);
-        Leaderboard leaderboard[] = {sort1};
-        return(leaderboard);
+    // };
 
-    };
-    public static void main(String[] args) {
-        // obtain Person from initializer
-        Leaderboard leaderboard[] = init(leaderboardRepository);
-
-        // iterate using "enhanced for loop"
-        
-        System.out.println(leaderboard);  // print object
+    public static List<Leaderboard> createIntialData() {
+        List<Leaderboard> initialData = new ArrayList<>();
+        initialData.add(new Leaderboard("bubble", 1000000, 1200));
+        return initialData;
     }
-    
-    // public static String[] Leaderboard() {
-    //      Leaderboard leaderboardlist[] = {
-    //         sort1
-    //     };
-    //     return(leaderboardlist);
+    // public static void main(String[] args) {
+    //     // obtain Person from initializer
+    //     Leaderboard leaderboards[] = init();
+
+    //     for (Leaderboard sortmethod : leaderboards) {
+    //                 System.out.println(sortmethod);  // print object
+    //     }
+        
     // }
+    public static List<Leaderboard> init() {
+        return createIntialData();
+    }
 }
 
 
