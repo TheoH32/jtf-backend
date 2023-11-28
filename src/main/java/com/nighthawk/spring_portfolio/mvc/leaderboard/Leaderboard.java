@@ -44,33 +44,12 @@ public Leaderboard(String sortName, int terms, double time) {
     }
 
 
-     // initialize static test data
-    // public static Leaderboard[] init() {
-
-    //     Leaderboard sort1 = new Leaderboard();
-    //     sort1.setSortName("bubble");
-    //     sort1.setTerms(1000000);
-    //     sort1.setTime(1200);
-
-    //     Leaderboard leaderboards[] = {sort1};
-    //     return(leaderboards);
-
-    // };
-
     public static List<Leaderboard> createIntialData() {
         List<Leaderboard> initialData = new ArrayList<>();
         initialData.add(new Leaderboard("bubble", 1000000, 1200));
         return initialData;
     }
-    // public static void main(String[] args) {
-    //     // obtain Person from initializer
-    //     Leaderboard leaderboards[] = init();
 
-    //     for (Leaderboard sortmethod : leaderboards) {
-    //                 System.out.println(sortmethod);  // print object
-    //     }
-        
-    // }
     public static List<Leaderboard> init() {
         return createIntialData();
     }

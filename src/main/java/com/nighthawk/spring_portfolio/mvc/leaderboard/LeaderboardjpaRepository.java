@@ -9,6 +9,7 @@ public interface LeaderboardjpaRepository extends JpaRepository<Leaderboard, Lon
     /* JPA has many built in methods: https://www.tutorialspoint.com/spring_boot_jpa/spring_boot_jpa_repository_methods.htm
     The below custom methods are prototyped for this application
     */
+    Leaderboard findBySortName(String sortName);
     void save(String Leaderboard);
    // List<Leaderboard> findAllByOrderByLeaderboardAsc();
     //List<Leaderboard> findBysortNameIgnoreCase(String sortName);
