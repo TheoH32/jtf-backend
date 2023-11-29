@@ -43,10 +43,9 @@ public class LeaderboardApiController {
         if (existingLeaderboard == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 Not Found if not exists
         }
-
+        double newTime = leaderboard.getTime();
         // Update the time of the existing leaderboard
-        existingLeaderboard.setTime(69420);
-
+        existingLeaderboard.setTime(newTime);
         // Save the updated leaderboard
         Leaderboard savedLeaderboard = repository.save(existingLeaderboard);
 
