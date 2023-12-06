@@ -29,6 +29,14 @@ public class LeaderboardApiController {
         return new ResponseEntity<>( repository.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/timefetch/{sortName}")
+    public double getTime(@PathVariable String sortName) {
+        // Find the leaderboard by sortName
+        Leaderboard existingLeaderboard = repository.findBySortName(sortName);
+        double sortTime = existingLeaderboard.getTime();
+        return(sortTime);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Leaderboard> createleaderboard(@RequestBody Leaderboard leaderboard) {
         Leaderboard savedLeaderboard = repository.save(leaderboard);
@@ -43,15 +51,38 @@ public class LeaderboardApiController {
         if (existingLeaderboard == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 Not Found if not exists
         }
-
+        double newTime = leaderboard.getTime();
         // Update the time of the existing leaderboard
-        existingLeaderboard.setTime(69420);
-
+        existingLeaderboard.setTime(newTime);
         // Save the updated leaderboard
         Leaderboard savedLeaderboard = repository.save(existingLeaderboard);
 
         return new ResponseEntity<>(savedLeaderboard, HttpStatus.OK);
     }
 
+    @PostMapping("/updateterms/{sortName}")
+    public ResponseEntity<Leaderboard> updateterms(@PathVariable String sortName, @RequestBody Leaderboard leaderboard) {
+        // Find the leaderboard by sortName
+        Leaderboard existingLeaderboard = repository.findBySortName(sortName);
 
- }
+        // Check if the leaderboard with the given sortName exists
+        if (existingLeaderboard == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 Not Found if not exists
+        }
+        int newTerms = leaderboard.getTerms();
+        // Update the time of the existing leaderboard
+        existingLeaderboard.setTerms(newTerms);
+        // Save the updated leaderboard
+        Leaderboard savedLeaderboard = repository.save(existingLeaderboard);
+
+        return new ResponseEntity<>(savedLeaderboard, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{sortName}")
+    public ResponseEntity<Void> deleteLeaderboard(@PathVariable String sortName) {
+        Leaderboard existingLeaderboard = repository.findBySortName(sortName);
+        repository.delete(existingLeaderboard); 
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+ 
