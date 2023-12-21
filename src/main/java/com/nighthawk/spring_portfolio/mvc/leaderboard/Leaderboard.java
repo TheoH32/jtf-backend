@@ -36,6 +36,9 @@ public class Leaderboard {
     private int terms;
     private double time;
 
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "6jsonb")
+    private Map<String,Map<String, Object>> stats = new HashMap<>(); 
 
 public Leaderboard(String sortName, int terms, double time) {
         this.sortName = sortName;
